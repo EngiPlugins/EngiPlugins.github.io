@@ -2,7 +2,9 @@
   "name": "EngiPlugins",
   "url": "https://engiplugins.github.io",
   "email": "engiplugins@gmail.com",
+  "location": "Leganés, Madrid, España",
   "year": 2026,
+  "phase": "prelaunch",
   "legalReviewed": false,
   "navigation": [
     ["Home", "index.html"],

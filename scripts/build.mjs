@@ -71,6 +71,7 @@ for (const [file, title, description] of pages) {
     text
       .replaceAll("{{navigation}}", navigation)
       .replaceAll("{{email}}", escape(site.email))
+      .replaceAll("{{location}}", escape(site.location))
       .replaceAll("{{year}}", site.year);
   const is404 = file === "404.html";
   const canonical = site.url + (file === "index.html" ? "/" : "/" + file);

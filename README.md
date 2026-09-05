@@ -19,7 +19,7 @@ The original root `index.html` remains the previous public website until the app
 
 The GitHub Actions workflow builds, checks and publishes only `dist/` after an approved change reaches `main`. Source files, original design assets and local QA reports are not included in the public website. GitHub Pages must use **GitHub Actions** as its publishing source for this workflow. No paid hosting is required for this implementation. Review GitHub Pages permitted-use conditions against the actual public scope before release.
 
-Legal text is currently a draft. Finalise the real operator identification, applicable privacy basis, retention procedure and provider review. Remove draft notices only after review, then set `legalReviewed` to `true`. `node scripts/check-site.mjs --release` prevents publishing while drafts remain. Do not bypass this check to deploy incomplete legal text.
+The site is currently in `prelaunch` phase: it may present the project but cannot expose products, trials, checkout or PayPal links. The release check enforces those limits. Before commercial launch, add the operator's complete professional address, finish the product-specific privacy and licence terms, complete legal review, set `legalReviewed` to `true`, and change the phase. `node scripts/check-site.mjs --release` blocks either phase when its required safeguards are missing.
 
 Draft privacy and terms pages are excluded from the sitemap and marked noindex. Noindex is not access control. The current draft preview is local only.
 

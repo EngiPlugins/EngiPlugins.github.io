@@ -73,16 +73,41 @@ if (process.argv.includes("--release")) {
   const site = JSON.parse(
     await readFile(path.join(root, "src/data/site.json"), "utf8"),
   );
-  if (!site.legalReviewed) {
-    console.error("RELEASE BLOCKED: legal pages remain owner-review drafts.");
-    process.exitCode = 1;
-  }
-  if (
-    [...cache.values()].some((html) => html.includes("Draft for owner review."))
-  ) {
-    console.error(
-      "RELEASE BLOCKED: draft legal text remains in the published output.",
-    );
-    process.exitCode = 1;
+  const products = JSON.parse(
+    await readFile(path.join(root, "src/data/products.json"), "utf8"),
+  );
+  if (site.phase === "prelaunch") {
+    if (!Array.isArray(products) || products.length !== 0) {
+      console.error("RELEASE BLOCKED: pre-launch site cannot contain products.");
+      process.exitCode = 1;
+    }
+    const combined = [...cache.values()].join("\n");
+    if (/paypal\.com|href="[^"]*(?:buy|checkout|trial)/i.test(combined)) {
+      console.error(
+        "RELEASE BLOCKED: pre-launch site contains a payment or trial link.",
+      );
+      process.exitCode = 1;
+    }
+    if (!cache.get("products.html")?.includes("no products available")) {
+      console.error(
+        "RELEASE BLOCKED: pre-launch product status is not explicit.",
+      );
+      process.exitCode = 1;
+    }
+  } else {
+    if (!site.legalReviewed) {
+      console.error("RELEASE BLOCKED: commercial legal review is incomplete.");
+      process.exitCode = 1;
+    }
+    if (
+      [...cache.values()].some((html) =>
+        html.includes("Pre-launch notice."),
+      )
+    ) {
+      console.error(
+        "RELEASE BLOCKED: pre-launch notice remains on commercial site.",
+      );
+      process.exitCode = 1;
+    }
   }
 }

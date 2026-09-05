@@ -80,10 +80,16 @@ for (const [file, title, description] of pages) {
     (!site.legalReviewed && ["privacy.html", "terms.html"].includes(file));
   const document = `<!DOCTYPE html>\n<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>${escape(title)} | EngiPlugins</title><meta name="description" content="${escape(description)}"><meta name="theme-color" content="#071f2c">${noindex ? '<meta name="robots" content="noindex, follow">' : ""}${is404 ? "" : `<link rel="canonical" href="${canonical}">`}<meta property="og:type" content="website"><meta property="og:site_name" content="EngiPlugins"><meta property="og:title" content="${escape(title)} | EngiPlugins"><meta property="og:description" content="${escape(description)}"><meta property="og:url" content="${canonical}"><meta property="og:image" content="${site.url}/assets/images/social-banner.webp"><meta property="og:image:alt" content="EngiPlugins — Engineering Plugins and Automation Tools"><meta name="twitter:card" content="summary_large_image"><link rel="icon" type="image/png" href="/assets/icons/favicon.png"><link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png"><link rel="stylesheet" href="/assets/css/tokens.css"><link rel="stylesheet" href="/assets/css/base.css"><link rel="stylesheet" href="/assets/css/components.css"><link rel="stylesheet" href="/assets/css/pages.css"><script src="/assets/js/navigation.js" defer></script></head><body>${replace(await read("src/partials/header.html"))}<main id="main" tabindex="-1">${replace(content)}</main>${replace(await read("src/partials/footer.html"))}</body></html>\n`;
   await writeFile(path.join(root, "dist", file), document);
+  await writeFile(path.join(root, file), document);
 }
 await writeFile(path.join(root, "dist/.nojekyll"), "");
+await writeFile(path.join(root, ".nojekyll"), "");
 await writeFile(
   path.join(root, "dist/robots.txt"),
+  `User-agent: *\nAllow: /\nSitemap: ${site.url}/sitemap.xml\n`,
+);
+await writeFile(
+  path.join(root, "robots.txt"),
   `User-agent: *\nAllow: /\nSitemap: ${site.url}/sitemap.xml\n`,
 );
 const indexable = pages.filter(
@@ -93,6 +99,10 @@ const indexable = pages.filter(
 );
 await writeFile(
   path.join(root, "dist/sitemap.xml"),
+  `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${indexable.map(([file]) => `<url><loc>${site.url}${file === "index.html" ? "/" : "/" + file}</loc></url>`).join("")}</urlset>\n`,
+);
+await writeFile(
+  path.join(root, "sitemap.xml"),
   `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${indexable.map(([file]) => `<url><loc>${site.url}${file === "index.html" ? "/" : "/" + file}</loc></url>`).join("")}</urlset>\n`,
 );
 console.log(

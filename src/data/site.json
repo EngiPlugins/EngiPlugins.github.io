@@ -1,0 +1,14 @@
+{
+  "name": "EngiPlugins",
+  "url": "https://engiplugins.github.io",
+  "email": "engiplugins@gmail.com",
+  "year": 2026,
+  "legalReviewed": false,
+  "navigation": [
+    ["Home", "index.html"],
+    ["Products", "products.html"],
+    ["Documentation", "documentation.html"],
+    ["Support", "support.html"],
+    ["About", "about.html"]
+  ]
+}

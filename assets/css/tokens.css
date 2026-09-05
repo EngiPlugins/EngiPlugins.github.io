@@ -1,0 +1,19 @@
+:root {
+  --navy: #071f2c;
+  --navy-deep: #031622;
+  --navy-light: #103447;
+  --cyan: #00bfd2;
+  --cyan-light: #5ce7ef;
+  --ink: #173547;
+  --muted: #516675;
+  --paper: #f5f8fa;
+  --white: #fff;
+  --line: #d9e3e9;
+  --link: #007388;
+  --radius: 12px;
+  --container: 1240px;
+  --space: clamp(20px, 4vw, 64px);
+  color-scheme: light;
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+  font-synthesis: none;
+}
